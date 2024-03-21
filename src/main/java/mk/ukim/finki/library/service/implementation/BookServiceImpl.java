@@ -2,11 +2,13 @@ package mk.ukim.finki.library.service.implementation;
 
 import mk.ukim.finki.library.model.Book;
 import mk.ukim.finki.library.model.dto.BookDTO;
+import mk.ukim.finki.library.model.event.BookCreatedEvent;
 import mk.ukim.finki.library.model.exceptions.InvalidAuthorIdException;
 import mk.ukim.finki.library.model.exceptions.InvalidBookIdException;
 import mk.ukim.finki.library.repository.AuthorRepository;
 import mk.ukim.finki.library.repository.BookRepository;
 import mk.ukim.finki.library.service.BookService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -18,9 +20,12 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository){
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, ApplicationEventPublisher applicationEventPublisher){
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -29,6 +34,9 @@ public class BookServiceImpl implements BookService {
                 bookDTO.getCategory(),
                 authorRepository.findById(bookDTO.getAuthorId()).orElseThrow(InvalidAuthorIdException::new),
                 bookDTO.getAvailableCopies());
+
+        applicationEventPublisher.publishEvent(new BookCreatedEvent(newBook));
+
 
         return Optional.of(bookRepository.save(newBook));
     }
