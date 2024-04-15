@@ -1,30 +1,34 @@
 package mk.ukim.finki.library.web;
 
 import mk.ukim.finki.library.model.Author;
-import mk.ukim.finki.library.model.Country;
 import mk.ukim.finki.library.model.dto.AuthorDTO;
-import mk.ukim.finki.library.repository.CountryRepository;
 import mk.ukim.finki.library.service.AuthorService;
 import mk.ukim.finki.library.service.CountryService;
 import mk.ukim.finki.library.service.implementation.AuthorServiceImpl;
 import mk.ukim.finki.library.service.implementation.CountryServiceImpl;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/api/author")
 public class AuthorController {
 
     private final AuthorService authorService;
     private final CountryService countryService;
 
-    public AuthorController(AuthorServiceImpl authorservice, CountryServiceImpl countryService){
-        this.authorService = authorservice;
+    public AuthorController(AuthorServiceImpl authorService, CountryServiceImpl countryService){
+        this.authorService = authorService;
         this.countryService = countryService;
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Author>> getAll(){
+
+
+        return ResponseEntity.ok().body(authorService.listAll());
     }
 
 

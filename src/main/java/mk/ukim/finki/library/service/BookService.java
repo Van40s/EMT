@@ -3,6 +3,7 @@ package mk.ukim.finki.library.service;
 import mk.ukim.finki.library.model.Book;
 import mk.ukim.finki.library.model.dto.BookDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
@@ -15,4 +16,6 @@ public interface BookService {
     Optional<Book> markRented(Long id);
 
     Book findBook(Long id);
+
+    List<Book> getAllBooks();
 }

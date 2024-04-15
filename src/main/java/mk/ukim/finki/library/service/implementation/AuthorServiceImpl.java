@@ -1,6 +1,5 @@
 package mk.ukim.finki.library.service.implementation;
 
-import jakarta.transaction.Transactional;
 import mk.ukim.finki.library.model.Author;
 import mk.ukim.finki.library.model.dto.AuthorDTO;
 import mk.ukim.finki.library.model.exceptions.InvalidAuthorIdException;
@@ -10,6 +9,7 @@ import mk.ukim.finki.library.repository.CountryRepository;
 import mk.ukim.finki.library.service.AuthorService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +34,10 @@ public class AuthorServiceImpl implements AuthorService {
                 countryRepository.findById(authorDTO.getCountryId()).orElseThrow(InvalidCountryIdException::new));
 
         return Optional.of(authorRepository.save(author));
+    }
+
+    @Override
+    public List<Author> listAll() {
+        return authorRepository.findAll();
     }
 }

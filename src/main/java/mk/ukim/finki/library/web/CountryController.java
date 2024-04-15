@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/api/country")
 public class CountryController {
 
@@ -17,6 +18,15 @@ public class CountryController {
 
     public CountryController(CountryServiceImpl countryService){
         this.countryService = countryService;
+    }
+
+
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Country>> getAll(){
+
+        return ResponseEntity.ok().body(countryService.listAll());
+
     }
 
 
@@ -31,12 +41,6 @@ public class CountryController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @GetMapping("/list-all")
-    public ResponseEntity<List<Country>> getCountries() {
-        var countries = countryService.listAll();
-
-        return ResponseEntity.ok(countries);
-    }
 
 
 }

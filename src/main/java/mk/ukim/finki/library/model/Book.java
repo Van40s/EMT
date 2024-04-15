@@ -15,10 +15,10 @@ public class Book {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne()
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Author author;
 
     private int availableCopies;
@@ -35,7 +35,7 @@ public class Book {
         this.category = category;
         this.author = author;
         this.availableCopies = availableCopies;
-        this.rented = false;
+        this.rented = true;
     }
 }
 

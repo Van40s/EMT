@@ -8,8 +8,11 @@ import mk.ukim.finki.library.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
+@RequestMapping("/api/books")
 public class BookController {
 
     private final BookService bookService;
@@ -20,6 +23,17 @@ public class BookController {
         this.authorService = authorService;
     }
 
+    @GetMapping()
+    public ResponseEntity<List<Book>> getAllBooks(){
+        List<Book> books = bookService.getAllBooks();
+
+        return ResponseEntity.ok().body(books);
+    }
+
+    @GetMapping("/getBook/{id}")
+    public ResponseEntity<Book> getBook(@PathVariable Long id){
+        return ResponseEntity.ok().body(bookService.findBook(id));
+    }
 
     @PostMapping("/add")
     public ResponseEntity<Book> addBook(@RequestBody BookDTO dto){
@@ -31,8 +45,7 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
 
-//        bookService.addBook(dto);
-//        return ResponseEntity.ok().build();
+
 
         return this.bookService.addBook(dto)
                 .map(book -> ResponseEntity.ok().body(book))
