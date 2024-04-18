@@ -32,7 +32,7 @@ const CategoryAdd = (props) => {
                        id="name"
                        name="name"
                        required
-                       placeholder="Enter country name"
+                       placeholder="Enter category name"
                        onChange={handleChange}
                 />
             </div>

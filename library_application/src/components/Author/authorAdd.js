@@ -30,7 +30,7 @@ const AuthorAdd = (props) => {
     return (
         <form onSubmit={onFormSubmit}>
             <div>
-                <label htmlFor="name">Country name</label>
+                <label htmlFor="name">Author name</label>
                 <input type="text"
                        className="form-control"
                        id="firstname"
@@ -41,7 +41,7 @@ const AuthorAdd = (props) => {
                 />
             </div>
             <div>
-                <label htmlFor="continent">Continent name</label>
+                <label htmlFor="continent">Lastname</label>
                 <input type="text"
                        className="form-control"
                        id="lastname"
